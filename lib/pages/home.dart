@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:unevent/pages/vibrations_page.dart';
 
 class home extends StatelessWidget {
   const home({super.key});
@@ -25,53 +27,62 @@ class home extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                  child: Image.asset(
-                    'Images/Vibrations.jpg',
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [Colors.black, Colors.transparent],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VibrationPage(),
+                    ));
+              },
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    child: Image.asset(
+                      'Images/Vibrations.jpg',
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  child: const Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          "Vibrations'25",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Akira'),
-                        ),
-                        Text(
-                          'Coming Soon',
-                          style: TextStyle(
-                              color: Color(0xffE83094),
-                              fontFamily: 'Akira',
-                              fontSize: 10),
-                        )
-                      ],
+                  Container(
+                    height: 100,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [Colors.black, Colors.transparent],
+                      ),
+                    ),
+                    child: const Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Vibrations'25",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Akira'),
+                          ),
+                          Text(
+                            'Coming Soon',
+                            style: TextStyle(
+                                color: Color(0xffE83094),
+                                fontFamily: 'Akira',
+                                fontSize: 10),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 20,
