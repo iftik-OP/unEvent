@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unevent/pages/homePage.dart';
 import 'package:unevent/pages/landingPage.dart';
+import 'package:unevent/providers/event_provider.dart';
 import 'package:unevent/providers/user_provider.dart';
 
 void main() async {
@@ -22,23 +23,25 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => EventProvider())
       ],
       child: MaterialApp(
         title: 'unEvent',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffE83094)),
           fontFamily: GoogleFonts.poppins().fontFamily,
+          textTheme: TextTheme(displayLarge: TextStyle(fontFamily: 'Akira')),
           useMaterial3: true,
         ),
         home: Builder(
           builder: (context) {
             return FutureBuilder(
-              future: _isUserSignedin(),
+              future: _isUserSignedin(context),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
                 }
-                if (snapshot.data == true) {
+                if (Provider.of<UserProvider>(context).user != null) {
                   return const homePage();
                 } else {
                   return const landingPage();
@@ -52,8 +55,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<bool> _isUserSignedin() async {
+Future<bool> _isUserSignedin(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
-  bool? loggedIn = prefs.getBool('loggedIn') ?? false;
+  bool loggedIn = prefs.getBool('loggedIn') ?? false;
+  if (loggedIn == true) {
+    Provider.of<UserProvider>(context).loadUser();
+  }
   return loggedIn;
 }

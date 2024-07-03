@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:unevent/classes/user.dart';
 import 'package:unevent/pages/homePage.dart';
 import 'package:unevent/providers/user_provider.dart';
 import 'package:unevent/services/user_service.dart';
@@ -32,6 +33,17 @@ class _landingPageState extends State<landingPage>
     spawnMinRadius: 100.0,
   );
 
+  void signInAsGoogleUser() {
+    Fluttertoast.showToast(
+        msg: "Registrations for outside BIT haven't opened yet",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
+
   void signInAsBitian() async {
     final FA.UserCredential userCredential =
         await userService.signInWithGoogle();
@@ -41,10 +53,13 @@ class _landingPageState extends State<landingPage>
         final user =
             await userService.checkIfUserExists(userCredential.user!.email!);
         if (user == null) {
-          await userService.createData({
-            'name': userCredential.user!.displayName,
-            'email': userCredential.user!.email
-          }, context);
+          await userService.createData(
+              User(
+                  name: userCredential.user!.displayName!,
+                  id: '',
+                  email: userCredential.user!.email,
+                  photoURL: userCredential.user!.photoURL),
+              context);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -52,6 +67,7 @@ class _landingPageState extends State<landingPage>
               ));
         } else {
           Provider.of<UserProvider>(context, listen: false).saveUser(user);
+          Provider.of<UserProvider>(context, listen: false).loadUser();
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -202,31 +218,36 @@ class _landingPageState extends State<landingPage>
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                width: 300,
-                height: 54,
-                decoration: ShapeDecoration(
-                  color: const Color(0x66F4F4F4),
-                  shape: RoundedRectangleBorder(
-                    side:
-                        const BorderSide(width: 0.25, color: Color(0xFFE83094)),
-                    borderRadius: BorderRadius.circular(37),
+              GestureDetector(
+                onTap: () {
+                  signInAsGoogleUser();
+                },
+                child: Container(
+                  width: 300,
+                  height: 54,
+                  decoration: ShapeDecoration(
+                    color: const Color(0x66F4F4F4),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                          width: 0.25, color: Color(0xFFE83094)),
+                      borderRadius: BorderRadius.circular(37),
+                    ),
                   ),
+                  child: const Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(FontAwesomeIcons.google),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Sign in with Google',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )),
                 ),
-                child: const Center(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FaIcon(FontAwesomeIcons.google),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Sign in with Google',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )),
               )
             ],
           ),

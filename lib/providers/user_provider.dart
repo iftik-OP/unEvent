@@ -3,8 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unevent/classes/user.dart';
 
 class UserProvider with ChangeNotifier {
-  User? user;
+  User? _user;
 
+  User? get user => _user;
   Future<void> saveUser(User user) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('user', user.toJson());
@@ -16,7 +17,7 @@ class UserProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString('user');
     if (userJson != null) {
-      user = User.fromJson(userJson);
+      _user = User.fromJson(userJson);
       notifyListeners();
     }
   }

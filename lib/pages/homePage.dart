@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unevent/pages/bookings_page.dart';
 import 'package:unevent/pages/home.dart';
 import 'package:unevent/pages/profile_page.dart';
 import 'package:unevent/services/user_service.dart';
@@ -20,9 +21,9 @@ class _homePageState extends State<homePage> {
   }
 
   final List<Widget> _pages = <Widget>[
-    Center(child: Text('Bookings')),
-    home(),
-    ProfilePage()
+    const BookingsPage(),
+    const home(),
+    const ProfilePage()
   ];
 
   @override

@@ -54,16 +54,44 @@ class UserService {
     }
   }
 
-  Future<void> createData(
-      Map<String, dynamic> data, BuildContext context) async {
+  Future<void> createData(User user, BuildContext context) async {
     try {
-      DocumentReference docRef = await _collection.add(data);
+      DocumentReference docRef = await _collection.add(user.toMap());
       String id = docRef.id;
       docRef.update({'id': id});
-      Provider.of<UserProvider>(context, listen: false)
-          .saveUser(User(id: id, name: data['name']));
+      user.id = id;
+      Provider.of<UserProvider>(context, listen: false).saveUser(user);
+      Provider.of<UserProvider>(context, listen: false).loadUser();
     } catch (e) {
       throw Exception('Failed to create data: $e');
+    }
+  }
+
+  Future<void> updateFavouriteEvents(List<String> events, String userId) async {
+    try {
+      DocumentReference user = await _collection.doc(userId);
+      user.update({'favouriteEvents': events});
+    } catch (e) {
+      print('Error updating data: ${e}');
+    }
+  }
+
+  Future<void> updateCreatedEvents(List<String> events, String userId) async {
+    try {
+      DocumentReference user = await _collection.doc(userId);
+      user.update({'createdEvents': events});
+    } catch (e) {
+      print('Error updating data: ${e}');
+    }
+  }
+
+  Future<void> updateParticiaptedEvents(
+      List<String> events, String userId) async {
+    try {
+      DocumentReference user = await _collection.doc(userId);
+      user.update({'participatedEvents': events});
+    } catch (e) {
+      print('Error updating data: ${e}');
     }
   }
 }

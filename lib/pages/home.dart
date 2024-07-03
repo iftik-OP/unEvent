@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:unevent/pages/vibrations_page.dart';
+import 'package:unevent/providers/event_provider.dart';
 
 class home extends StatelessWidget {
   const home({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<EventProvider>(context).loadEvents();
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
