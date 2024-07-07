@@ -16,7 +16,7 @@ class FavouriteEventsPage extends StatefulWidget {
 class _FavouriteEventsPageState extends State<FavouriteEventsPage> {
   @override
   Widget build(BuildContext context) {
-    final allEvents = Provider.of<EventProvider>(context).favouriteEvents;
+    final allEvents = Provider.of<EventProvider>(context).allEvents;
     final currentUser = Provider.of<UserProvider>(context).user;
     final favEventsIds = currentUser!.favouriteEvents;
 

@@ -43,6 +43,7 @@ class _EventCardState extends State<EventCard> {
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<UserProvider>(context).user;
+    print(currentUser!.favouriteEvents);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Stack(
@@ -109,16 +110,19 @@ class _EventCardState extends State<EventCard> {
                   children: [
                     Hero(
                       tag: widget.event.title,
-                      child: Text(widget.event.title,
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              )),
+                      child: Text(
+                        widget.event.title,
+                        textAlign: TextAlign.left,
+                        style:
+                            Theme.of(context).textTheme.displayLarge!.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,7 +137,7 @@ class _EventCardState extends State<EventCard> {
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 9, vertical: 5),
+                              horizontal: 9, vertical: 2),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: const Color(0xffE83094).withOpacity(0.8),
@@ -196,12 +200,11 @@ class _EventCardState extends State<EventCard> {
                 padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFF41E4A9).withOpacity(0.8),
+                  color: const Color(0xFF41E4A9).withOpacity(0.3),
                 ),
-                child: const FaIcon(
-                  FontAwesomeIcons.arrowRight,
+                child: const Icon(
+                  Icons.keyboard_arrow_right_rounded,
                   color: Colors.white,
-                  size: 25,
                 )),
           ),
           currentUser!.favouriteEvents.contains(widget.event.id)
@@ -215,6 +218,7 @@ class _EventCardState extends State<EventCard> {
                         UserService userService = UserService();
                         userService.updateFavouriteEvents(
                             currentUser.favouriteEvents, currentUser.id);
+                        print(currentUser.favouriteEvents);
                       });
                     },
                     child: const FaIcon(
@@ -234,6 +238,7 @@ class _EventCardState extends State<EventCard> {
                         UserService userService = UserService();
                         userService.updateFavouriteEvents(
                             currentUser.favouriteEvents, currentUser.id);
+                        print(currentUser.favouriteEvents);
                       });
                     },
                     child: const FaIcon(

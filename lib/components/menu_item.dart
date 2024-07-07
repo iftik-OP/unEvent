@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MenuItem extends StatelessWidget {
@@ -17,17 +18,28 @@ class MenuItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FaIcon(
-              leadingIcon,
-              color: const Color(0xffE83094),
+            Row(
+              children: [
+                SizedBox(
+                  width: 30,
+                  child: FaIcon(
+                    leadingIcon,
+                    color: const Color(0xffE83094).withOpacity(0.8),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 18),
+                ),
+              ],
             ),
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-            ),
-            const FaIcon(
-              FontAwesomeIcons.arrowRight,
-              color: Color(0xFF41E4A9),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
             )
           ],
         ),

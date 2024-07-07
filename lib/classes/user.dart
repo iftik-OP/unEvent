@@ -3,6 +3,7 @@ import 'dart:convert';
 class User {
   final String name;
   String id;
+  String? designation;
   final String? photoURL;
   final String? email;
   final String? fcmToken;
@@ -16,6 +17,7 @@ class User {
     this.fcmToken,
     this.email,
     this.photoURL,
+    this.designation,
     List<String>? favouriteEvents,
     List<String>? createdEvents,
     List<String>? participatedEvents,
@@ -29,6 +31,7 @@ class User {
       name: map['name'],
       email: map['email'],
       photoURL: map['photoURL'],
+      designation: map['designation'],
       favouriteEvents: (map['favouriteEvents'] as List<dynamic>?)
               ?.map((item) => item.toString())
               .toList() ??
@@ -51,6 +54,7 @@ class User {
       'fcmToken': fcmToken,
       'email': email,
       'photoURL': photoURL,
+      'designation': designation,
       'favouriteEvents': favouriteEvents,
       'createdEvents': createdEvents,
       'participatedEvents': participatedEvents,
@@ -65,6 +69,7 @@ class User {
       email: jsonData['email'],
       fcmToken: jsonData['fcmToken'],
       photoURL: jsonData['photoURL'],
+      designation: jsonData['designation'],
       favouriteEvents: (jsonData['favouriteEvents'] as List<dynamic>)
           .map((item) => item.toString())
           .toList(),
@@ -84,6 +89,7 @@ class User {
       'fcmToken': fcmToken,
       'email': email,
       'photoURL': photoURL,
+      'designation': designation,
       'favouriteEvents': favouriteEvents,
       'createdEvents': createdEvents,
       'participatedEvents': participatedEvents,

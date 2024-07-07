@@ -22,42 +22,6 @@ class _BookingsPageState extends State<BookingsPage> {
       id: 'id',
       dateTime: DateTime.now(),
       location: 'location');
-  void showCustomDialog(BuildContext context) {
-    showGeneralDialog(
-      context: context,
-      barrierLabel: "Barrier",
-      barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.5),
-      transitionDuration: Duration(milliseconds: 700),
-      pageBuilder: (_, __, ___) {
-        return Center(
-          child: Container(
-            height: 240,
-            child: SizedBox.expand(child: FlutterLogo()),
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(40)),
-          ),
-        );
-      },
-      transitionBuilder: (_, anim, __, child) {
-        Tween<Offset> tween;
-        if (anim.status == AnimationStatus.reverse) {
-          tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
-        } else {
-          tween = Tween(begin: Offset(1, 0), end: Offset.zero);
-        }
-
-        return SlideTransition(
-          position: tween.animate(anim),
-          child: FadeTransition(
-            opacity: anim,
-            child: child,
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +37,15 @@ class _BookingsPageState extends State<BookingsPage> {
                 'Bookings',
                 style: TextStyle(fontFamily: 'Akira', fontSize: 30),
               ),
+              Text(
+                'Tap the barcode for your QR',
+                style: TextStyle(
+                    fontFamily: 'Akira',
+                    fontSize: 10,
+                    color: Colors.black.withOpacity(0.5)),
+              ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               FutureBuilder(
                 future: allEvents,
@@ -82,8 +53,11 @@ class _BookingsPageState extends State<BookingsPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SizedBox(
                         height: 200,
-                        child: Skeletonizer(child: EventTicket(event: event)));
-                  } else if (snapshot.hasError) {
+                        child: Skeletonizer(
+                          containersColor: Colors.grey.withOpacity(0.3),
+                          child: EventTicket(event: event),
+                        ));
+                  } else if (snapshot.hasError || snapshot.data == null) {
                     return const Center(
                       child: Text('Error loading events'),
                     );

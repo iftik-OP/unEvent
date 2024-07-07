@@ -1,9 +1,96 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:unevent/classes/event.dart';
+import 'package:unevent/classes/user.dart';
 import 'package:unevent/providers/user_provider.dart';
 
 class EventTicket extends StatelessWidget {
+  void showCustomDialog(BuildContext context, User currentUser) {
+    showGeneralDialog(
+      context: context,
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      pageBuilder: (_, __, ___) {
+        return Center(
+          child: Container(
+            height: 550,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(color: Colors.white),
+            child: SizedBox.expand(
+                child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: QrImageView(
+                      data: event.id + currentUser.id,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                    ),
+                    height: 180,
+                    color: const Color.fromARGB(255, 28, 28, 28),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Show this QR at the event check-in',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                decoration: TextDecoration.none,
+                                color: Colors.white,
+                                fontSize: 25),
+                          ),
+                        ),
+                        SizedBox(
+                          child: Image.asset(
+                            'Images/text logo white.png',
+                            height: 30,
+                            opacity: const AlwaysStoppedAnimation(0.7),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )),
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        Tween<Offset> tween;
+        if (anim.status == AnimationStatus.reverse) {
+          tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
+        } else {
+          tween = Tween(begin: Offset(1, 0), end: Offset.zero);
+        }
+
+        return SlideTransition(
+          position: tween.animate(anim),
+          child: FadeTransition(
+            opacity: anim,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
   final Event event;
   EventTicket({super.key, required this.event});
 
@@ -107,19 +194,28 @@ class EventTicket extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: -18,
+                bottom: 20,
                 left: 20,
                 child: Image.asset(
                   'Images/text logo white.png',
-                  height: 100,
+                  height: 15,
                 ),
               ),
               Positioned(
                 bottom: 5,
                 right: 40,
-                child: Image.asset(
-                  'Images/barcode.png',
-                  height: 40,
+                child: GestureDetector(
+                  onTap: () {
+                    showCustomDialog(context, currentUser);
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'Images/barcode.png',
+                        height: 40,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ]),

@@ -145,97 +145,99 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 topLeft: Radius.circular(30),
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                  width: double.infinity,
-                ),
-                Hero(
-                  tag: widget.event.title,
-                  child: Text(
-                    widget.event.title,
-                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                          color: Color(0xffE83094),
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                    width: double.infinity,
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Divider(
-                  endIndent: MediaQuery.of(context).size.height * 0.2,
-                ),
-                Text(
-                  '${days[widget.event.dateTime.weekday - 1]}\n${months[widget.event.dateTime.month - 1]} ${widget.event.dateTime.day}, ${widget.event.dateTime.year}',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black.withOpacity(0.4)),
-                ),
-                Divider(
-                  endIndent: MediaQuery.of(context).size.height * 0.1,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'Event Description',
-                  style: TextStyle(fontFamily: 'Akira', fontSize: 16),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  widget.event.description,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                owner != null
-                    ? const Text(
-                        'Event Coordinator',
-                        style: TextStyle(fontFamily: 'Akira', fontSize: 12),
-                      )
-                    : const SizedBox(),
-                const SizedBox(
-                  height: 20,
-                ),
-                owner != null
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.grey.withOpacity(0.2),
-                        ),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                owner!.photoURL!,
+                  Hero(
+                    tag: widget.event.title,
+                    child: Text(
+                      widget.event.title,
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                            color: Color(0xffE83094),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    endIndent: MediaQuery.of(context).size.height * 0.2,
+                  ),
+                  Text(
+                    '${days[widget.event.dateTime.weekday - 1]}\n${months[widget.event.dateTime.month - 1]} ${widget.event.dateTime.day}, ${widget.event.dateTime.year}',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black.withOpacity(0.4)),
+                  ),
+                  Divider(
+                    endIndent: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Event Description',
+                    style: TextStyle(fontFamily: 'Akira', fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    widget.event.description,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  owner != null
+                      ? const Text(
+                          'Event Coordinator',
+                          style: TextStyle(fontFamily: 'Akira', fontSize: 12),
+                        )
+                      : const SizedBox(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  owner != null
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey.withOpacity(0.2),
+                          ),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage: NetworkImage(
+                                  owner!.photoURL!,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              owner!.name,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      )
-                    : const SizedBox(),
-              ],
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                owner!.name,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
             ),
           ),
           currentUser!.favouriteEvents.contains(widget.event.id)

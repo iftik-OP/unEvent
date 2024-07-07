@@ -70,8 +70,8 @@ class _VibrationPageState extends State<VibrationPage> {
         ],
         backgroundColor: Colors.transparent,
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(

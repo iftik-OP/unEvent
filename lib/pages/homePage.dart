@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unevent/pages/bookings_page.dart';
 import 'package:unevent/pages/home.dart';
 import 'package:unevent/pages/profile_page.dart';
+import 'package:unevent/providers/user_provider.dart';
 import 'package:unevent/services/user_service.dart';
 
 class homePage extends StatefulWidget {
@@ -17,6 +19,15 @@ class _homePageState extends State<homePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedPageIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<UserProvider>(context, listen: false).loadUser();
     });
   }
 

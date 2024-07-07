@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,33 +34,27 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(displayLarge: TextStyle(fontFamily: 'Akira')),
           useMaterial3: true,
         ),
-        home: Builder(
-          builder: (context) {
-            return FutureBuilder(
-              future: _isUserSignedin(context),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-                if (Provider.of<UserProvider>(context).user != null) {
-                  return const homePage();
-                } else {
-                  return const landingPage();
-                }
-              },
-            );
-          },
-        ),
+        // home: Builder(
+        //   builder: (context) {
+        //     return FutureBuilder(
+        //       future: _isUserSignedin(context),
+        //       builder: (context, snapshot) {
+        //         if (snapshot.connectionState == ConnectionState.waiting) {
+        //           return const CircularProgressIndicator();
+        //         }
+        //         if (Provider.of<UserProvider>(context).user != null) {
+        //           return const homePage();
+        //         } else {
+        //           return const landingPage();
+        //         }
+        //       },
+        //     );
+        //   },
+        // ),
+        home: FirebaseAuth.instance.currentUser != null
+            ? const homePage()
+            : const landingPage(),
       ),
     );
   }
-}
-
-Future<bool> _isUserSignedin(BuildContext context) async {
-  final prefs = await SharedPreferences.getInstance();
-  bool loggedIn = prefs.getBool('loggedIn') ?? false;
-  if (loggedIn == true) {
-    Provider.of<UserProvider>(context).loadUser();
-  }
-  return loggedIn;
 }

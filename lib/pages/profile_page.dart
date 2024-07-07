@@ -89,20 +89,21 @@ class _ProfilePageState extends State<ProfilePage> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              currentUser!.name == 'IFTIKHAR AHMAD'
+                              currentUser!.designation != null
                                   ? Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 2),
                                       decoration: BoxDecoration(
-                                          color: Colors.amber,
+                                          color: const Color.fromARGB(
+                                              26, 255, 193, 7),
                                           borderRadius:
                                               BorderRadius.circular(20)),
-                                      child: const Text(
-                                        'Treasurer - TC',
-                                        style: TextStyle(
+                                      child: Text(
+                                        currentUser.designation!,
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                            color: Colors.amber),
                                       ),
                                     )
                                   : const SizedBox()

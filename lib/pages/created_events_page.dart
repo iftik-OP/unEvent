@@ -16,7 +16,7 @@ class CreatedEventsPage extends StatefulWidget {
 class _CreatedEventsPageState extends State<CreatedEventsPage> {
   @override
   Widget build(BuildContext context) {
-    final allEvents = Provider.of<EventProvider>(context).createdEvents;
+    final allEvents = Provider.of<EventProvider>(context).allEvents;
     final currentUser = Provider.of<UserProvider>(context).user;
 
     return Scaffold(

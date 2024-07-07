@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:unevent/classes/user.dart';
+import 'package:unevent/components/unEventLoading.dart';
 import 'package:unevent/pages/homePage.dart';
 import 'package:unevent/providers/user_provider.dart';
 import 'package:unevent/services/user_service.dart';
@@ -45,6 +46,7 @@ class _landingPageState extends State<landingPage>
   }
 
   void signInAsBitian() async {
+    unEventLoading.showLoadingDialog(context);
     final FA.UserCredential userCredential =
         await userService.signInWithGoogle();
     if (userCredential.user!.email != null) {
@@ -60,6 +62,7 @@ class _landingPageState extends State<landingPage>
                   email: userCredential.user!.email,
                   photoURL: userCredential.user!.photoURL),
               context);
+          unEventLoading.hideLoadingDialog(context);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -68,6 +71,7 @@ class _landingPageState extends State<landingPage>
         } else {
           Provider.of<UserProvider>(context, listen: false).saveUser(user);
           Provider.of<UserProvider>(context, listen: false).loadUser();
+          unEventLoading.hideLoadingDialog(context);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -88,6 +92,7 @@ class _landingPageState extends State<landingPage>
       } else {
         // The email is not from the specified domain
         await userService.signOut();
+        unEventLoading.hideLoadingDialog(context);
         Fluttertoast.showToast(
             msg: "Please sign in with your BIT Mesra email ID",
             toastLength: Toast.LENGTH_LONG,
