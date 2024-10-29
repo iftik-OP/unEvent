@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:unevent/pages/vibrations_page.dart';
+import 'package:unevent/pages/techfest_page.dart';
+import 'package:unevent/providers/committee_provider.dart';
 import 'package:unevent/providers/event_provider.dart';
 
 class home extends StatelessWidget {
@@ -10,6 +13,7 @@ class home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<EventProvider>(context).loadEvents();
+    Provider.of<CommitteeProvider>(context).loadMembers();
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
@@ -23,8 +27,8 @@ class home extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                'Upcoming\nEvents',
-                style: TextStyle(fontFamily: 'Akira', fontSize: 15),
+                'Upcoming\nFests',
+                style: TextStyle(fontFamily: 'Akira', fontSize: 30),
               ),
             ),
             const SizedBox(
@@ -32,11 +36,14 @@ class home extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VibrationPage(),
-                    ));
+                Fluttertoast.showToast(
+                    msg: "Coming Soon",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Color(0xffE83094),
+                    textColor: Colors.white,
+                    fontSize: 12.0);
               },
               child: Stack(
                 alignment: Alignment.bottomCenter,
@@ -90,53 +97,51 @@ class home extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                  child: Image.asset(
-                    'Images/Tech Fest.jpg',
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [Colors.black, Colors.transparent],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TechFestPage(),
+                    ));
+              },
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    child: Image.asset(
+                      'Images/Tech Fest.jpg',
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  child: const Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          "Tech Fest'25",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Akira'),
-                        ),
-                        Text(
-                          'Coming Soon',
-                          style: TextStyle(
-                              color: Color(0xffE83094),
-                              fontFamily: 'Akira',
-                              fontSize: 10),
-                        )
-                      ],
+                  Container(
+                    height: 100,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [Colors.black, Colors.transparent],
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Tech Fest'25",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Akira'),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             // Container(
             //   height: 300,

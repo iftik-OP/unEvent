@@ -33,7 +33,7 @@ class EventTicket extends StatelessWidget {
                   SizedBox(
                     height: 300,
                     child: QrImageView(
-                      data: event.id + currentUser.id,
+                      data: '${event.id}|${currentUser.email!}',
                     ),
                   ),
                   Container(

@@ -9,16 +9,18 @@ import 'package:unevent/classes/event.dart';
 import 'package:unevent/components/event_card.dart';
 import 'package:unevent/pages/create_event_page.dart';
 import 'package:unevent/pages/event_details_page.dart';
+import 'package:unevent/providers/committee_provider.dart';
 import 'package:unevent/providers/event_provider.dart';
+import 'package:unevent/providers/user_provider.dart';
 
-class VibrationPage extends StatefulWidget {
-  const VibrationPage({super.key});
+class TechFestPage extends StatefulWidget {
+  const TechFestPage({super.key});
 
   @override
-  State<VibrationPage> createState() => _VibrationPageState();
+  State<TechFestPage> createState() => _TechFestPageState();
 }
 
-class _VibrationPageState extends State<VibrationPage> {
+class _TechFestPageState extends State<TechFestPage> {
   late Future<List<Event>>? _events;
 
   // void initState() {
@@ -36,25 +38,37 @@ class _VibrationPageState extends State<VibrationPage> {
       location: 'location');
   @override
   Widget build(BuildContext context) {
+    final currentUser = Provider.of<UserProvider>(context).user;
     _events = Provider.of<EventProvider>(context).allEvents;
+    final _membersFuture = Provider.of<CommitteeProvider>(context).allMembers;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF41E4A9),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CreateEventPage(
-                    fest: 'vibrations',
-                  ),
+      floatingActionButton: FutureBuilder(
+        future: _membersFuture,
+        builder: (context, snapshot) {
+          final members = snapshot.data;
+          if (members!.any((member) => member.email == currentUser!.email)) {
+            return FloatingActionButton(
+                backgroundColor: const Color(0xFF41E4A9),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CreateEventPage(
+                          fest: 'techfest',
+                        ),
+                      ));
+                },
+                child: const FaIcon(
+                  FontAwesomeIcons.plus,
+                  color: Colors.white,
                 ));
-          },
-          child: const FaIcon(
-            FontAwesomeIcons.plus,
-            color: Colors.white,
-          )),
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
@@ -81,7 +95,7 @@ class _VibrationPageState extends State<VibrationPage> {
                   height: 20,
                 ),
                 const Text(
-                  'Vibration\n2025',
+                  'TechFest\n2025',
                   style: TextStyle(
                     fontFamily: 'Akira',
                     fontSize: 30,
@@ -122,6 +136,20 @@ class _VibrationPageState extends State<VibrationPage> {
                       ));
                     } else {
                       List<Event> events = snapshot.data!;
+                      events.removeWhere((event) => event.fest != 'techfest');
+                      if (events.isEmpty) {
+                        return Center(
+                            child: Column(
+                          children: [
+                            Image.asset(
+                              'Images/no_data.png',
+                              height: 250,
+                              opacity: AlwaysStoppedAnimation(0.4),
+                            ),
+                            Text('No events found'),
+                          ],
+                        ));
+                      }
                       return ListView.builder(
                         shrinkWrap: true, // Add this line
                         physics:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unevent/classes/user.dart';
 import 'package:unevent/pages/bookings_page.dart';
 import 'package:unevent/pages/home.dart';
 import 'package:unevent/pages/profile_page.dart';

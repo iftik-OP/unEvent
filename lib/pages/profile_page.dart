@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart' as FA;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:unevent/components/menu_item.dart';
+import 'package:unevent/pages/check-ins_page.dart';
 import 'package:unevent/pages/created_events_page.dart';
 import 'package:unevent/pages/favourite_events_page.dart';
 import 'package:unevent/pages/landingPage.dart';
+import 'package:unevent/pages/technical_committee.dart';
+import 'package:unevent/providers/committee_provider.dart';
 import 'package:unevent/providers/user_provider.dart';
 import 'package:unevent/services/user_service.dart';
 
@@ -24,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<UserProvider>(context).user;
+    Provider.of<CommitteeProvider>(context).loadMembers();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -115,9 +120,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 70,
                       ),
                       MenuItem(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Checkinspage(),
+                                ));
+                          },
                           leadingIcon: FontAwesomeIcons.ticket,
-                          title: 'Your Tickets'),
+                          title: 'Your Check-ins'),
                       const Divider(
                         endIndent: 2,
                       ),
@@ -126,7 +137,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CreatedEventsPage(),
+                                  builder: (context) =>
+                                      const CreatedEventsPage(),
                                 ));
                           },
                           leadingIcon: FontAwesomeIcons.calendarDays,
@@ -139,7 +151,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => FavouriteEventsPage(),
+                                  builder: (context) =>
+                                      const FavouriteEventsPage(),
                                 ));
                           },
                           leadingIcon: FontAwesomeIcons.solidHeart,
@@ -148,14 +161,30 @@ class _ProfilePageState extends State<ProfilePage> {
                         endIndent: 2,
                       ),
                       MenuItem(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TechnicalCommittee(),
+                                ));
+                          },
                           leadingIcon: FontAwesomeIcons.robot,
                           title: 'Technical Committee'),
                       const Divider(
                         endIndent: 2,
                       ),
                       MenuItem(
-                          onTap: () {},
+                          onTap: () {
+                            Fluttertoast.showToast(
+                                msg: "Coming Soon",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Color(0xffE83094),
+                                textColor: Colors.white,
+                                fontSize: 12.0);
+                          },
                           leadingIcon: FontAwesomeIcons.music,
                           title: 'Cultural Committee'),
                       const Divider(

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:unevent/classes/event.dart';
 import 'package:unevent/components/event_card.dart';
+import 'package:unevent/pages/event_details_page.dart';
 import 'package:unevent/providers/event_provider.dart';
 import 'package:unevent/providers/user_provider.dart';
 
@@ -102,7 +103,16 @@ class _CreatedEventsPageState extends State<CreatedEventsPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: events.length,
                       itemBuilder: (context, index) {
-                        return EventCard(event: events[index]);
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EventDetailsPage(event: events[index]),
+                                  ));
+                            },
+                            child: EventCard(event: events[index]));
                       },
                     );
                   }

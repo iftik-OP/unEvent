@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:unevent/classes/event.dart';
+import 'package:unevent/components/app_bar.dart';
 import 'package:unevent/components/event_card.dart';
+import 'package:unevent/pages/event_details_page.dart';
 import 'package:unevent/providers/event_provider.dart';
 import 'package:unevent/providers/user_provider.dart';
 
@@ -21,21 +23,7 @@ class _FavouriteEventsPageState extends State<FavouriteEventsPage> {
     final favEventsIds = currentUser!.favouriteEvents;
 
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        automaticallyImplyLeading: false,
-        title: Image.asset('Images/unevent black.png', height: 200, width: 200),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.black,
-            ),
-          ),
-        ],
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: unEventAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: SingleChildScrollView(
@@ -117,7 +105,16 @@ class _FavouriteEventsPageState extends State<FavouriteEventsPage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: events.length,
                         itemBuilder: (context, index) {
-                          return EventCard(event: events[index]);
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EventDetailsPage(
+                                          event: events[index]),
+                                    ));
+                              },
+                              child: EventCard(event: events[index]));
                         },
                       );
                     }

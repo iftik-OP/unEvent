@@ -80,13 +80,13 @@ class _EventCardState extends State<EventCard> {
                           )
                         : Image.asset(
                             'Images/unevent logo.png',
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             height: 200,
                             width: double.infinity,
                           )
                 : Image.asset(
                     'Images/unevent black.png',
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     height: 200,
                     width: double.infinity,
                   ),
@@ -207,7 +207,7 @@ class _EventCardState extends State<EventCard> {
                   color: Colors.white,
                 )),
           ),
-          currentUser!.favouriteEvents.contains(widget.event.id)
+          currentUser.favouriteEvents.contains(widget.event.id)
               ? Positioned(
                   top: 20,
                   right: 25,

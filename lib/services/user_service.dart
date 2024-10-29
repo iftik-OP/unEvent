@@ -94,4 +94,13 @@ class UserService {
       print('Error updating data: ${e}');
     }
   }
+
+  Future<void> updateDesignation(String designation, String userId) async {
+    try {
+      DocumentReference user = await _collection.doc(userId);
+      user.update({'designation': designation});
+    } catch (e) {
+      print('Error updating data: ${e}');
+    }
+  }
 }

@@ -27,6 +27,15 @@ class EventServices {
     }
   }
 
+  Future<void> updateEventCheckedIns(Event event) async {
+    try {
+      DocumentReference doc = await _collection.doc(event.id);
+      doc.update({'checkedins': event.checkedins});
+    } catch (e) {
+      print('Error updating data: ${e}');
+    }
+  }
+
   Future<List<Event>> fetchEvents() async {
     List<Event> events = [];
     try {

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 import 'package:unevent/classes/event.dart';
 import 'package:unevent/classes/user.dart';
 import 'package:unevent/components/unEventLoading.dart';
+import 'package:unevent/pages/qr_scanner.dart';
 import 'package:unevent/providers/user_provider.dart';
 import 'package:unevent/services/event_services.dart';
 import 'package:unevent/services/user_service.dart';
@@ -95,31 +97,51 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
         padding: const EdgeInsets.only(left: 32),
         child: SizedBox(
           width: double.infinity,
-          child: widget.event.participants.contains(currentUser!.email)
+          child: widget.event.eventOwner == currentUser!.email
               ? FloatingActionButton.extended(
                   isExtended: true,
-                  backgroundColor: Colors.redAccent,
-                  onPressed: () async {
-                    withdrawUser(currentUser);
-                    setState(() {});
+                  backgroundColor: const Color(0xFF41E4A9),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ScanQRCode(
+                            event: widget.event,
+                          ),
+                        ));
                   },
                   label: const Text(
-                    'Withdraw',
+                    'Check-in User',
                     style: TextStyle(fontFamily: 'Akira', color: Colors.white),
                   ),
                 )
-              : FloatingActionButton.extended(
-                  isExtended: true,
-                  backgroundColor: const Color(0xFF41E4A9),
-                  onPressed: () async {
-                    await rsvpUser(currentUser);
-                    setState(() {});
-                  },
-                  label: const Text(
-                    'RSVP',
-                    style: TextStyle(fontFamily: 'Akira', color: Colors.white),
-                  ),
-                ),
+              : widget.event.participants.contains(currentUser!.email)
+                  ? FloatingActionButton.extended(
+                      isExtended: true,
+                      backgroundColor: Colors.redAccent,
+                      onPressed: () async {
+                        withdrawUser(currentUser);
+                        setState(() {});
+                      },
+                      label: const Text(
+                        'Withdraw',
+                        style:
+                            TextStyle(fontFamily: 'Akira', color: Colors.white),
+                      ),
+                    )
+                  : FloatingActionButton.extended(
+                      isExtended: true,
+                      backgroundColor: const Color(0xFF41E4A9),
+                      onPressed: () async {
+                        await rsvpUser(currentUser);
+                        setState(() {});
+                      },
+                      label: const Text(
+                        'RSVP',
+                        style:
+                            TextStyle(fontFamily: 'Akira', color: Colors.white),
+                      ),
+                    ),
         ),
       ),
       backgroundColor: Colors.white,

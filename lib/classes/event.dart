@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:unevent/classes/user.dart';
-
 class Event {
   String title;
   String id;
@@ -12,6 +10,7 @@ class Event {
   String location;
   String? fest;
   List<String> participants;
+  List<String> checkedins;
 
   Event({
     required this.description,
@@ -23,7 +22,9 @@ class Event {
     required this.dateTime,
     required this.location,
     List<String>? participants,
-  }) : participants = participants ?? [];
+    List<String>? checkedins,
+  })  : participants = participants ?? [],
+        checkedins = checkedins ?? [];
 
   // Convert an Event object into a JSON map.
   Map<String, dynamic> toJson() {
@@ -39,6 +40,7 @@ class Event {
       'location': location,
       'fest': fest,
       'participants': participants,
+      'checkedins': checkedins,
     };
   }
 
@@ -54,6 +56,9 @@ class Event {
       location: json['location'],
       fest: json['fest'],
       participants: (json['participants'] as List<dynamic>)
+          .map((item) => item.toString())
+          .toList(),
+      checkedins: (json['checkedins'] as List<dynamic>)
           .map((item) => item.toString())
           .toList(),
     );
@@ -73,6 +78,7 @@ class Event {
       'location': location,
       'fest': fest,
       'participants': participants,
+      'checkedins': checkedins,
     };
   }
 
@@ -88,6 +94,10 @@ class Event {
       location: map['location'],
       fest: map['fest'],
       participants: (map['participants'] as List<dynamic>?)
+              ?.map((item) => item.toString())
+              .toList() ??
+          [],
+      checkedins: (map['checkedins'] as List<dynamic>?)
               ?.map((item) => item.toString())
               .toList() ??
           [],

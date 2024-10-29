@@ -32,10 +32,12 @@ class _BookingsPageState extends State<BookingsPage> {
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
-                'Bookings',
-                style: TextStyle(fontFamily: 'Akira', fontSize: 30),
+                'Upcoming Bookings',
+                style: TextStyle(fontFamily: 'Akira', fontSize: 20),
               ),
               Text(
                 'Tap the barcode for your QR',
@@ -65,10 +67,19 @@ class _BookingsPageState extends State<BookingsPage> {
                     List<Event> events =
                         List.from(snapshot.data!); // Create a copy
                     events.removeWhere((event) =>
-                        !event.participants.contains(currentUser!.email));
+                        !event.participants.contains(currentUser!.email) ||
+                        event.checkedins.contains(currentUser.email));
                     if (events.isEmpty) {
-                      return const Center(
-                        child: Text('No Bookings'),
+                      return Center(
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'Images/no-booking.png',
+                              opacity: const AlwaysStoppedAnimation(0.3),
+                            ),
+                            const Text('No Upcoming Bookings'),
+                          ],
+                        ),
                       );
                     } else {
                       return ListView.builder(
